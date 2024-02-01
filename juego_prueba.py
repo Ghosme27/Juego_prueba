@@ -7,7 +7,7 @@ window = pygame.display.set_mode((800,600))#Aqui tenemos las dimensiones que tie
 pygame.display.set_caption('Arkanoid_Prueba')
 
 #Creacion de la pelota de juego
-ball = pygame.image.load("ball_nuevo.png")
+ball = pygame.image.load("ball.png")
 
 #Tener el rectángulo de la imagen utilizada
 ballrect = ball.get_rect()
