@@ -18,22 +18,44 @@ speed = [4,4]
 #Posicion inicial de nuestra pelota que sera en el origen de coordenandas
 ballrect.move_ip(0,0)
 
+#Creamos una barra para nuestro juego para el rebote con nuestro pelota y su rectangulo
+barra = pygame.image.load ("barra_nuevo.png")
+barrarect = barra.get_rect()
+
+#Posicionamiento de nuestra barra
+barrarect.move_ip(150,550)
+
 #Bucle principal del arkonaid
 jugar = True 
 while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             jugar = False #Con esto el bucle ira comporbando si el boton de la ventana esta abierto si no es asi se cerrara y se quitara el juego.
+    
+    #Comprobacion del pulsamiento de una tecla para su movimiento
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:#movimiento para la izquierda y cuanto se mueve
+        barrarect = barrarect.move(-2,0)
+    if keys [pygame.K_RIGHT]:#movimiento para la derecha y cuanto se mueve
+        barrarect = barrarect.move(2,0)
+    
     #movimiento de la pelota
     ballrect = ballrect.move(speed)
-    #Pondremos un comprobador para cuando choque la pelota a los limites de la pantalla
+
+    #limite para nuestra barra y no se escape de la pantalla
+    if barra.rect.left > window.display(0,550):
+        barra.rect.left = window.display(0,150)
+    #Pondremos un comprobador para cuando choque la pelota a los limites de la pantalla o cuando choque con la barra
+    if barrarect.colliderect(ballrect):#comprueba si los hitboxs chocan
+        speed[1] = -speed[1]
     if ballrect.left < 0 or ballrect.right > window.get_width():
         speed [0] = -speed[0]
     if ballrect.top < 0 or ballrect.bottom > window.get_height():
         speed [1] = -speed[1]
     #Pintaremos la ventana de juego de un color que nosotros queramos dentro del bucle lo haremos.
     window.fill((3,100,100))
-    #dibujamos la pelota
+    #dibujamos la pelota y la barra
+    window.blit(barra,barrarect)
     window.blit(ball,ballrect)
     #Los elemntos del juego se redibujan.
     pygame.display.flip()
