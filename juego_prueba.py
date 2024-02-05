@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 #Comienzo de la extension pygame
 pygame.init()
 
@@ -43,8 +44,6 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     ballrect = ballrect.move(speed)
 
     #limite para nuestra barra y no se escape de la pantalla
-    if barra.rect.left > window.display(0,550):
-        barra.rect.left = window.display(0,150)
     #Pondremos un comprobador para cuando choque la pelota a los limites de la pantalla o cuando choque con la barra
     if barrarect.colliderect(ballrect):#comprueba si los hitboxs chocan
         speed[1] = -speed[1]
