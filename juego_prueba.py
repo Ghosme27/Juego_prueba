@@ -1,7 +1,7 @@
 import pygame
 from random import randint
 import ladrillo
-from ladrillo import ladrillo1
+from ladrillo import LAD_AZUL 
 #Comienzo de la extension pygame
 pygame.init()
 
@@ -31,8 +31,8 @@ barrarect.move_ip(300,550)
 #Hacemos una lista con los ladrillos
 lista_ladrillos = []
 for posx in range(16):
-    for posy in range(4):
-        lista_ladrillos.append(ladrillo1.ladrillo1(25 * posx,25 * posy,'lad.azul.png'))
+    for posy in range(3):
+        lista_ladrillos.append(ladrillo.LAD_AZUL(50 * posx, 50 * posy,'lad_azul.png'))
 
 #Bucle principal del arkonaid
 jugar = True 
@@ -48,11 +48,11 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     if keys [pygame.K_RIGHT]:#movimiento para la derecha y cuanto se mueve
         barrarect = barrarect.move(2,0)
     
-    if ladrillo1 in lista_ladrillos:
-        window.blit(ladrillo1.image,ladrillo1.rect)
+    if ladrillo in lista_ladrillos:
+        window.blit(ladrillo.image,ladrillo.rect)
         #colisiones pelota - ladrillo
-        if ballrect.colliderect(ladrillo1.rect):
-            lista_ladrillos.remove(ladrillo1)
+        if ballrect.colliderect(ladrillo.rect):
+            lista_ladrillos.remove(ladrillo)
             speed[1] = speed [-1]
 
     #movimiento de la pelota
