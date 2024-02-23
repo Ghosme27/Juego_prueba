@@ -1,7 +1,5 @@
 import pygame
 from random import randint
-import ladrillo
-from ladrillo import LAD_AZUL 
 #Comienzo de la extension pygame
 pygame.init()
 
@@ -16,7 +14,7 @@ ball = pygame.image.load("ball.png")
 ballrect = ball.get_rect()
 
 #Pondremos unos valores que tendra la velocidad inicial nuestra pelota
-speed = [randint(3,6),randint(3,6)]
+speed = [4,4]
 
 #Posicion inicial de nuestra pelota que sera en el origen de coordenandas
 ballrect.move_ip(400,300)
@@ -28,12 +26,16 @@ barrarect = barra.get_rect()
 #Posicionamiento de nuestra barra
 barrarect.move_ip(300,550)
 
+#creacion de un solo ladrilllo
+lad_azul = pygame.image.load('lad_azul.png')
+ladrect =  lad_azul.get_rect()
+ladrect.move_ip(100,100)
 #Hacemos una lista con los ladrillos
-lista_ladrillos = []
-for posx in range(16):
-    for posy in range(3):
-        lista_ladrillos.append(ladrillo.LAD_AZUL(50 * posx, 50 * posy,'lad_azul.png'))
-
+lista_ladrillos = []#creamos una lista vacia de ladrillos
+for i in range(16):#para el eje x nos hara 16 bloques
+    for j in range(3):#para el eje y nos hara 3 filas para abajo
+        ladrillo = pygame.Rect(0 + i *100,20 + j *40,100,20)#declaramos las dimensiones
+        lista_ladrillos.append(ladrillo)
 #Bucle principal del arkonaid
 jugar = True 
 while jugar: #esto hara que mientras jugar sea true este en funcionamiento
@@ -48,12 +50,11 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     if keys [pygame.K_RIGHT]:#movimiento para la derecha y cuanto se mueve
         barrarect = barrarect.move(2,0)
     
-    if ladrillo in lista_ladrillos:
-        window.blit(ladrillo.image,ladrillo.rect)
-        #colisiones pelota - ladrillo
-        if ballrect.colliderect(ladrillo.rect):
-            lista_ladrillos.remove(ladrillo)
-            speed[1] = speed [-1]
+    #Colisiones pelota-ladrillos
+    for ladrillo in lista_ladrillos:
+        if ballrect.colliderect(ladrillo):#cada ver que la pelota se encuentra con la hitbox de un ladrillo
+            lista_ladrillos.remove(ladrillo)#borrara cada ladrillo por colision
+            speed[1] = -speed[1]#cambiara la direcion del pelota
 
     #movimiento de la pelota
     ballrect = ballrect.move(speed)
@@ -73,6 +74,10 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     #dibujamos la pelota y la barra
     window.blit(barra,barrarect)
     window.blit(ball,ballrect)
+   #dibujamos la lista de ladrillos
+    for ladrillo in lista_ladrillos:
+        pygame.draw.rect(window, (0, 0, 255), ladrillo) 
+
     #Los elemntos del juego se redibujan.
     pygame.display.flip()
     #Para tener una tasa de refresco(FPS)
