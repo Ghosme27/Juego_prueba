@@ -46,9 +46,9 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     
     #Comprobacion del pulsamiento de una tecla para su movimiento
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:#movimiento para la izquierda y cuanto se mueve
+    if keys[pygame.K_LEFT] and barrarect.left > 0:#movimiento para la izquierda y cuanto se mueve ademas comprueba que no se salga de la pantalla
         barrarect = barrarect.move(-4,0)
-    if keys [pygame.K_RIGHT]:#movimiento para la derecha y cuanto se mueve
+    if keys [pygame.K_RIGHT] and barrarect.right < window.get_width():#movimiento para la derecha y cuanto se mueve ademas comprueba que no se salga de la pantalla
         barrarect = barrarect.move(4,0)
     
     #Colisiones pelota-ladrillos
@@ -66,9 +66,11 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     ballrect = ballrect.move(speed)
 
     #limite para nuestra barra y no se escape de la pantalla
+    
     #Pondremos un comprobador para cuando choque la pelota a los limites de la pantalla o cuando choque con la barra
     if barrarect.colliderect(ballrect):#comprueba si los hitboxs chocan
         speed[1] = -speed[1] 
+
     if ballrect.left < 0 or ballrect.right > window.get_width():
         speed[0] = -speed[0]
     if ballrect.top < 0 or ballrect.bottom > window.get_height():
