@@ -7,7 +7,7 @@ pygame.init()
 
 #Creacion de la pantalla de la superficie
 window = pygame.display.set_mode((800,600))#Aqui tenemos las dimensiones que tiene nuestra ventana de juego
-pygame.display.set_caption('Arkanoid_Prueba')
+pygame.display.set_caption('Arkanoid_HELEN_AMIR')
 
 #Cargar la musica
 pygame.mixer.music.load('musica_fondo.mp3')
