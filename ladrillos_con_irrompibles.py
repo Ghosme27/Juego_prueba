@@ -1,5 +1,4 @@
 import pygame
-
 #creamos la clase ladrillo con 4 parametros uno para hacer referencia al objeto , los otros dos para la posición y uno para los bloques irrompibles
 class ladrillo_1:
     def __init__(self, x, y,irrompible=False):

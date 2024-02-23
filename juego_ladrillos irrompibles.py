@@ -9,6 +9,11 @@ pygame.init()
 window = pygame.display.set_mode((800,600))#Aqui tenemos las dimensiones que tiene nuestra ventana de juego
 pygame.display.set_caption('Arkanoid_Prueba')
 
+#Cargar la musica
+pygame.mixer.music.load('musica_fondo.mp3')
+
+#Para que tengamos la musica en bucle
+pygame.mixer.music.play(-1)
 #Creacion de la pelota de juego
 ball = pygame.image.load("ball.png")
 
@@ -98,4 +103,8 @@ window.blit(text,(350,250))
 pygame.display.flip()
 pygame.time.delay(2000)#el tiempo que se queda hasta cerrar la ventana
  
+#para parar la musica
+pygame.mixer.music.stop()
+
+
 pygame.quit()
