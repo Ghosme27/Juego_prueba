@@ -1,7 +1,7 @@
 import pygame
 from random import randint
-from ladrillo import ladrillo_1
-from ladrillo import listaladrillos
+from ladrillos_con_irrompibles import ladrillo_1
+from ladrillos_con_irrompibles import listaladrillos
 #Comienzo de la extension pygame
 pygame.init()
 
@@ -42,16 +42,20 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     #Comprobacion del pulsamiento de una tecla para su movimiento
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:#movimiento para la izquierda y cuanto se mueve
-        barrarect = barrarect.move(-2,0)
+        barrarect = barrarect.move(-4,0)
     if keys [pygame.K_RIGHT]:#movimiento para la derecha y cuanto se mueve
-        barrarect = barrarect.move(2,0)
+        barrarect = barrarect.move(4,0)
     
     #Colisiones pelota-ladrillos
     for ladrillo in lista_ladrillos.lista_ladrillos:
         if ballrect.colliderect(ladrillo.rect):#cada ver que la pelota se encuentra con la hitbox de un ladrillo
-            lista_ladrillos.lista_ladrillos.remove(ladrillo)#borrara cada ladrillo por colision
-            speed[1] = randint(-2,6)
-            speed[0] = randint(-2,6)#cambiara la direcion del pelota y velocidad de la pelota
+            if not ladrillo.irrompible:
+                lista_ladrillos.lista_ladrillos.remove(ladrillo)#borrara cada ladrillo por colision
+                speed[1] = randint(2,6)
+                speed[0] = randint(2,6)#cambiara la direcion del pelota y velocidad de la pelota
+            else:
+                speed[1] = randint(2,6)
+                speed[0] = randint(2,6)#cambiara la direcion del pelota y velocidad de la pelota
 
     #movimiento de la pelota
     ballrect = ballrect.move(speed)
@@ -65,7 +69,7 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     if ballrect.top < 0 or ballrect.bottom > window.get_height():
         speed [1] = -speed[1]
     if ballrect.bottom > window.get_height():
-        window.blit()
+        break
     #Pintaremos la ventana de juego de un color que nosotros queramos dentro del bucle lo haremos.
     window.fill((3,100,100))
     #dibujamos la pelota y la barra
@@ -73,12 +77,25 @@ while jugar: #esto hara que mientras jugar sea true este en funcionamiento
     window.blit(ball,ballrect)
    #dibujamos la lista de ladrillos
     for ladrillo in lista_ladrillos.lista_ladrillos:
-        pygame.draw.rect(window,(0,0,255),ladrillo.rect)
+        if not ladrillo.irrompible:
+            pygame.draw.rect(window,(0,0,255),ladrillo.rect)#los rompibles azules
+        else:
+            pygame.draw.rect(window,(255,0,0),ladrillo.rect)#los irrompibles son rojos
 
+    if not lista_ladrillos.lista_ladrillos:#si no hay mas ladrillos para destutrir aparece la escena de ganador
+        font = pygame.font.Font(None,80)
+        texto = font.render('¡ENORABUENA GANASTE¡',True,(255,150,200))
+        window.blit(texto,(350,250))
+    
     #Los elemntos del juego se redibujan.
     pygame.display.flip()
     #Para tener una tasa de refresco(FPS)
     pygame.time.Clock().tick(60)
-    
-    
+#Si se sale del bucle aparecera GameOver
+font = pygame.font.Font(None,100)
+text = font.render('Game Over',True,(255,0,0))
+window.blit(text,(350,250))
+pygame.display.flip()
+pygame.time.delay(2000)#el tiempo que se queda hasta cerrar la ventana
+ 
 pygame.quit()
